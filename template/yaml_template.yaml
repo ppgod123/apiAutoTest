@@ -1,0 +1,80 @@
+# 公共参数
+case_common:
+  allureEpic: 衢州企业预警项目接口
+  allureFeature: 监测预警记录模块
+  allureStory: 监测预警记录列表接口
+
+# 用例ID，每条都需要有独立的ID，不能重复，推荐以接口名称命名
+collect_addtool_01:
+    host: ${{host()}}
+    # 如果请求参数是url上的路径，直接/warning/record/page/$cache{collect_addtool_01_path}，请求参数请使用request_type中的param
+    url: /warning/record/page
+    method: POST
+    # 用例描述，必填！
+    detail: 获取监测预警记录列表接口
+    # 请求头
+    headers:
+      # 这里cookie的值，写的是存入缓存的名称
+      cookie: JSESSIONID=E17CD5E5688249FC60BCF2DBFCBB3438
+      # 请求类型
+      Content-Type: application/json;
+      # 需要的内容可以自行添加，如User-Agent等
+    # 请求的数据，是 params 还是 json、或者file、data
+    requestType: json
+    # 是否执行，空或者 true 都会执行
+    is_run:
+    # 入参内容
+    data:
+      # file类型
+      # file:
+        # file: test.png
+      # data类型
+      # 如果有需要使用到cache中内容，$cache{cache中的变量名}
+      pageNum: 1
+      pageSize: 10
+    # 是否有依赖业务， bool值，为空或Fasle都表示没有
+    dependence_case: False
+    # 依赖的数据
+    dependence_case_data:
+      # - case_id: 依赖的case_id
+      #            如果是自身用例中，数据库的信息，则输入self，且下方要有setup_sql
+        # dependent_data:
+          # 同一个接口可以添加多个dependent_type，如果是不同接口的不同数据，需要添加- case_id
+          # - dependent_type: 依赖的数据类型：request、response、sql,比如填写的是resopnse, 那么就是从依赖接口的响应内容中，提取数据，request则表示诗求数据
+          #                   数据库应该输入什么？ TODO
+            # jsonpath: 比如从响应中提取errorCode，上方填写response，此处填写$.errorCode
+            # set_cache: 如果是依赖别的用例按照{该用例名称_变量名}进行定义，将上述jsonpath取出结果保存造缓存中
+            #            如果是依赖自身数据库的信息，则按照{sql_变量名}进行定义
+    assert:
+      # 如果接口没有返回信息，只有状态码，可以写为
+      # status_code: 200
+      # 断言接口返回，可以自己定义，可以写多个
+      success:
+        # 断言类型，如果为空则为响应断言，SQL为数据库断言
+        AssertType:
+        # 提取响应或者Sql中的内容
+        jsonpath: $.success
+        # 断言类型 ==、!=、IN....
+        type: ==
+        # 期望值
+        value: true
+        # 断言描述
+        message: "success 断言为 true"
+    # 将当前用例的请求数据，或者响应数据，直接存入缓存
+    current_request_set_cache:
+      # response 从响应中提取内容  request从请求中提取内容
+      - type: response
+        jsonpath: $.data.xxx
+        # 命名规则：  TODO
+        name: collect_addtool_01_xxx
+    # 用例中需要的SQL语句
+    sql:
+      # 可以编写多条SQL，但是最好返回结果保持单一，对重名部分进行as
+      # - select * from xxx
+    setup_sql:
+      # 前置SQL，可以多条，最终程序中会出来{“a”: ""} json格式的数据
+      - select * from xxx where bbb = ''
+    teardown:
+    teardown_sql:
+      # 可以编写多条SQL，对数据进行删除
+      # - delete * from xxx
