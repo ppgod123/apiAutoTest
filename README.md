@@ -22,16 +22,18 @@
     pip install -r requirements.txt
 
 ## 使用步骤
-1、修改`apiAutoTest\common\config.yaml`里相关的配置信息
+1、修改`variable.py`中的`system`的名称
+
+2、修改`apiAutoTest\common\{项目名称}\config.yaml`里相关的配置信息
   > 注：涉及数据库账号密码，需要在`apiAutoTest\utils\encryption\encrypteInfo.py`中对敏感信息进行加密后修改到配置文件中
 
-2、仔细阅读`apiAutoTest\template\yaml_template.yaml`用例模板
+3、仔细阅读`apiAutoTest\template\yaml_template.yaml`用例模板
 
-3、在`project\apiAutoTest\data`下根据模块进行文件夹区分，并在下方以`接口为维度`编写`yaml`文件
+4、在`project\apiAutoTest\data`下创建自己的项目文件夹之后根据模块进行文件夹区分，并在下方以`接口为维度`编写`yaml`文件
 
-4、可以在`apiAutoTest\test_case\conftest.py`下编写公共方法，如统一的登录获取Cookie等
+5、可以在`apiAutoTest\test_case\{项目名称}conftest.py`下编写公共方法，如统一的登录获取Cookie等
 
-5、运行根目录`apiAutoTest\run.py`文件
+6、运行根目录`apiAutoTest\run.py`文件
 
 ## 框架介绍
 
@@ -115,18 +117,6 @@
 [https://wanandroid.com/blog/show/2](https://wanandroid.com/blog/show/2)
 
 ## 如何创建用例
-
-### 创建用例步骤
-1、在data文件夹下方创建相关的yaml用例
-
-2、写完之后，需要执行 utils\readFilesUtils\caseAutomaticControl.py 这个文件，生成自动化代码
-
-3、执行caseAutomaticControl.py文件之后，会发现，在test_case层新增该条用例的对应代码，可直接执行该用例调试
-
-4、注意，如果生成对应的测试代码之后，期间有更改过yaml用例中的内容，需要重新生成代码，必现因为更改yaml用例之后导致运行失败
-
-5、当所有接口都编写好之后，可以直接运行run.py主程序，执行所有自动化接口
-
 
 下面我们来看一下，如何创建用例
 
@@ -804,10 +794,6 @@ get请求我们 requestType 写的是 params ，这样发送请求时，我们�
 小伙伴们在编写好 yaml 用例之后，可以直接执行 caseAutomaticControl.py ，会跟你设计的测试用例，生成对应的代码。
 
 ![img.png](Files/image/write_test_case.png)
-
-### 发送钉钉通知通知
-
-![img.png](Files/image/dingding.png)
 
 ### 日志打印装饰器
 
