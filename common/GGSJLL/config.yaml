@@ -24,12 +24,20 @@ ding_talk:
   secret: SEC7fa2a86f1d197ccf2a92d909264bea092f2a0cb696a7617d60da550896e9f0c7
 # 数据库相关配置
 mysql_db:
-  # 数据库开关
-  switch: True
-  host: 10.145.6.12
-  user: early_warning
-  password: eh5bo7BLoP5rImenwT4ffqpjD0fZ3wrdttXc6cUhNMiCfY+kvcaNU2wy44jxic1BqzY6hfUp1Xwo7Em9QcbB3ppL/803Eof+xs6TOagrGWsFRa5lZSoCVlH3NUvRDqcGkLYLeiy6Eo3qSvgo4nXTPLve/QwnacjGzYuvgqN+4qA=
-  port: 3306
+  A:
+    # 数据库开关
+    switch: True
+    host: 10.145.6.12
+    user: early_warning
+    password: g/Rip7NGf8um6uGIQRxCKM2dkEe0AONo+Pus20e94KEjCSIpufnv4ubZyPaWbtMYEBQQl5w5GUeoSON09xXz8Jx9JU9YTuUNLf31Npqnis7/fPdtYpmKSeiXJb+N2nCy6n95b+egym/fHzyeXPYm66QVTcHEW96Hy2NeRDo9wAU=
+    port: 3306
+  B:
+    # 数据库开关
+    switch: True
+    host: 172.31.73.8
+    user: data_link_dev
+    password: g/Rip7NGf8um6uGIQRxCKM2dkEe0AONo+Pus20e94KEjCSIpufnv4ubZyPaWbtMYEBQQl5w5GUeoSON09xXz8Jx9JU9YTuUNLf31Npqnis7/fPdtYpmKSeiXJb+N2nCy6n95b+egym/fHzyeXPYm66QVTcHEW96Hy2NeRDo9wAU=
+    port: 3306
 
 # Redis相关配置
 redis:

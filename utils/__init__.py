@@ -22,5 +22,6 @@ def decrypte_info(value) -> str:
         return cipher_obj.decrypt(base64.b64decode(value), random_generator).decode("utf-8")
 
 
-config.mysql_db.password = decrypte_info(config.mysql_db.password)
+for db_name, db_info in config.mysql_db.items():
+    config.mysql_db[db_name].password = decrypte_info(db_info.password)
 config.redis.password = decrypte_info(config.redis.password)

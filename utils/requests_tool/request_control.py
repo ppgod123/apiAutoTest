@@ -311,16 +311,18 @@ class RequestControl:
     @classmethod
     def _sql_data_handler(cls, sql_data, res):
         """处理 sql 参数 """
+        final_sql_data = {}
         # 判断数据库开关，开启状态，则返回对应的数据
-        if config.mysql_db.switch and sql_data is not None:
-            sql_data = AssertExecution().assert_execution(
-                sql=sql_data,
-                resp=res.json()
-            )
-
+        if sql_data is not None:
+            for db_name, db_sql in sql_data.items():
+                _sql_data = AssertExecution(db_name=db_name).assert_execution(
+                    sql=db_sql,
+                    resp=res.json()
+                )
+                final_sql_data.update(_sql_data)
         else:
-            sql_data = {"sql": None}
-        return sql_data
+            final_sql_data = {"sql": None}
+        return final_sql_data
 
     def _check_params(
             self,

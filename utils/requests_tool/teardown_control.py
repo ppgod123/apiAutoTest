@@ -308,9 +308,15 @@ class TearDownHandler:
         sql_data = self._res.teardown_sql
         _response_data = self._res.response_data
         if sql_data is not None:
-            for i in sql_data:
-                if config.mysql_db.switch:
-                    _sql_data = sql_regular(value=i, res=json.loads(_response_data))
-                    MysqlDB().execute(cache_regular(_sql_data))
+            for db_name, db_sql_list in sql_data.items():
+                db_object = config.mysql_db[db_name]
+                if db_object:
+                    if db_object.switch:
+                        my_sql_db = MysqlDB(db_name=db_name)
+                        for _sql in db_sql_list:
+                            _sql_data = sql_regular(value=_sql, res=json.loads(_response_data))
+                            my_sql_db.execute(cache_regular(_sql_data))
+                    else:
+                        WARNING.logger.warning(f"程序中检查到您数据库开关为关闭状态，已为您跳过删除sql: {db_sql_list}")
                 else:
-                    WARNING.logger.warning("程序中检查到您数据库开关为关闭状态，已为您跳过删除sql: %s", i)
+                    raise KeyError(f"用例中未找到 {db_name} 参数， 如已填写，请检查用例缩进是否存在问题")

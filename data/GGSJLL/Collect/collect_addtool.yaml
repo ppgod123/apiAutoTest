@@ -11,7 +11,7 @@ collect_addtool_01:
     detail: 获取监测预警记录列表接口1
     headers:
       # 这里cookie的值，写的是存入缓存的名称
-      cookie: JSESSIONID=4C72CAA68041F4B8863F776D4EB68EF6
+      cookie: JSESSIONID=589DDAD59F8087167F7F9D6530E4FB0F
       Content-Type: application/json;
     # 请求的数据，是 params 还是 json、或者file、data
     requestType: json
@@ -20,57 +20,47 @@ collect_addtool_01:
     data:
       pageNum: 1
       pageSize: 10
-
-    dependence_case: False
-    # 依赖的数据
-    dependence_case_data:
-    assert:
-      # 断言接口状态码
-      success:
-        jsonpath: $.success
-        type: ==
-        value: true
-        AssertType:
-        message: "success 断言为 true"
-    current_request_set_cache:
-    sql:
-    teardown:
-    teardown_sql:
-
-collect_addtool_02:
-    host: ${{host()}}
-    url: /warning/record/page
-    method: POST
-    detail: 获取监测预警记录列表接口2
-    headers:
-      # 这里cookie的值，写的是存入缓存的名称
-      cookie: JSESSIONID=4C72CAA68041F4B8863F776D4EB68EF6
-      Content-Type: application/json;
-    # 请求的数据，是 params 还是 json、或者file、data
-    requestType: json
-    # 是否执行，空或者 true 都会执行
-    is_run:
-    data:
-      pageNum: 1
-      pageSize: 10
-      corpName: $cache{collect_addtool_02_corpname}
+      corpName: $cache{sql_corp_name}
+      warningTypeId: $cache{sql_warning_type_id}
     dependence_case: True
     # 依赖的数据
     dependence_case_data:
-      - case_id: collect_addtool_01
+      - case_id: self
         dependent_data:
-            - dependent_type: response
-              jsonpath: $.data.list[0].corpName
-              set_cache: collect_addtool_02_corpname
+          - dependent_type: sql
+            jsonpath: $.A.corp_name
+            set_cache: sql_corp_name
+          - dependent_type: sql
+            jsonpath: $.A.warning_type_id
+            set_cache: sql_warning_type_id
+          - dependent_type: sql
+            jsonpath: $.B.rule_name
+            set_cache: sql_rule_name
     assert:
       # 断言接口状态码
-      success:
-        AssertType:
-        jsonpath: $.data.total
+      warningTypeQuotaName:
+        jsonpath: $.data.list[0].warningTypeQuotaName
         type: ==
-        value: 8
-        message: "success 断言为 true"
+        value: $.warningTypeQuotaName
+        AssertType: SQL
+        message: "xxxxx"
     current_request_set_cache:
     sql:
+      - db_name: A
+        sql_list:
+          - select warning_type_quota_name as warningTypeQuotaName from early_warning.monitor_warning_record where corp_name = '浙江德洲五金有限公司' and warning_type_id = 1
+      - db_name: B
+        sql_list:
+          - select * from data_link_dev.dla_alarm_rule where rule_compare_type = 1
+    setup_sql:
+      - db_name: A
+        sql_list:
+          - select * from early_warning.monitor_warning_record where corp_name = '浙江德洲五金有限公司' and warning_type_id = 1
+      - db_name: B
+        sql_list:
+          - select * from data_link_dev.dla_alarm_rule where rule_compare_type = 1
     teardown:
     teardown_sql:
+      - db_name: A
+        sql_list:
+          - select * from early_warning.account_user
