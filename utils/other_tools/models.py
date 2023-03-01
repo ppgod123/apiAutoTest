@@ -149,6 +149,8 @@ class DingTalk(BaseModel):
 
 
 class MySqlDB(BaseModel):
+    type: Union[Text, None] = None
+    database: Union[Text, None] = None
     switch: bool = False
     host: Union[Text, None] = None
     user: Union[Text, None] = None

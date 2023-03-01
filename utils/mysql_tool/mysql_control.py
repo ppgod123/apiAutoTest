@@ -10,6 +10,8 @@ import datetime
 import decimal
 from warnings import filterwarnings
 import pymysql
+import psycopg2
+import psycopg2.extras
 from typing import List, Union, Text, Dict
 from utils import config
 from utils.logging_tool.log_control import ERROR
@@ -29,16 +31,30 @@ class MysqlDB:
         if config.mysql_db[db_name].switch:
 
             try:
-                # 建立数据库连接
-                self.conn = pymysql.connect(
-                    host=config.mysql_db[db_name].host,
-                    user=config.mysql_db[db_name].user,
-                    password=config.mysql_db[db_name].password,
-                    port=config.mysql_db[db_name].port
-                )
+                # MySQL数据库连接
+                if config.mysql_db[db_name].type.upper() == "MYSQL":
+                    # 建立数据库连接
+                    self.conn = pymysql.connect(
+                        host=config.mysql_db[db_name].host,
+                        user=config.mysql_db[db_name].user,
+                        password=config.mysql_db[db_name].password,
+                        port=config.mysql_db[db_name].port
+                    )
 
-                # 使用 cursor 方法获取操作游标，得到一个可以执行sql语句，并且操作结果为字典返回的游标
-                self.cur = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
+                    # 使用 cursor 方法获取操作游标，得到一个可以执行sql语句，并且操作结果为字典返回的游标
+                    self.cur = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
+                # PostgreSQL数据库连接
+                elif config.mysql_db[db_name].type.upper() == "POSTGRESQL":
+                    self.conn = psycopg2.connect(
+                        host=config.mysql_db[db_name].host,
+                        database=config.mysql_db[db_name].database,
+                        user=config.mysql_db[db_name].user,
+                        password=config.mysql_db[db_name].password,
+                        port=config.mysql_db[db_name].port
+                    )
+
+                    # 使用 cursor 方法获取操作游标，得到一个可以执行sql语句，并且操作结果为字典返回的游标
+                    self.cur = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
             except AttributeError as error:
                 ERROR.logger.error("数据库连接失败，失败原因 %s", error)
 

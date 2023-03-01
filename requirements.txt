@@ -3,7 +3,6 @@ allure-python-commons==2.9.45
 atomicwrites==1.4.0
 attrs==21.2.0
 Brotli==1.0.9
-certifi @ file:///C:/b/abs_85o_6fm0se/croot/certifi_1671487778835/work/certifi
 cffi==1.15.0
 charset-normalizer==2.0.7
 colorama==0.4.4
@@ -18,6 +17,7 @@ iniconfig==1.1.1
 jsonpath==0.82
 packaging==21.3
 pluggy==1.0.0
+psycopg2==2.9.5
 py==1.11.0
 pycparser==2.21
 pycryptodome==3.17
@@ -31,7 +31,7 @@ pytest-xdist==2.4.0
 python-dateutil==2.8.2
 pywin32==305
 PyYAML==6.0
-redis @ file:///Users/ktietz/demo/mc3/conda-bld/redis_1629466498261/work
+redis==3.5.3
 requests==2.26.0
 requests-toolbelt==0.10.1
 six==1.16.0

@@ -25,19 +25,30 @@ ding_talk:
 # 数据库相关配置
 mysql_db:
   A:
+    type: MySQL
     # 数据库开关
     switch: True
     host: 10.145.6.12
     user: early_warning
-    password: g/Rip7NGf8um6uGIQRxCKM2dkEe0AONo+Pus20e94KEjCSIpufnv4ubZyPaWbtMYEBQQl5w5GUeoSON09xXz8Jx9JU9YTuUNLf31Npqnis7/fPdtYpmKSeiXJb+N2nCy6n95b+egym/fHzyeXPYm66QVTcHEW96Hy2NeRDo9wAU=
+    password: WB1wH/DVTDirDu4kQrVn811rswGUWgYXfO7DzRotFYBfrAxNO4kBKLoXiNj9e7/WZd/CUh7x8Hp6jSF8V0eOqBAO2b9kL2y7/+bpDxGHMn50a1hM8VqR9AlSNHKS74QQwtJzY0PPFzWlK8Ho16FNaWy1etaRWJLn08GTSqyyLS0=
     port: 3306
   B:
+    type: MySQL
     # 数据库开关
     switch: True
     host: 172.31.73.8
     user: data_link_dev
-    password: g/Rip7NGf8um6uGIQRxCKM2dkEe0AONo+Pus20e94KEjCSIpufnv4ubZyPaWbtMYEBQQl5w5GUeoSON09xXz8Jx9JU9YTuUNLf31Npqnis7/fPdtYpmKSeiXJb+N2nCy6n95b+egym/fHzyeXPYm66QVTcHEW96Hy2NeRDo9wAU=
+    password: eSe30/iuDCVN1TOfnfHB7g1sTBauy958W5CbceMlb/vrXyLwveOnJ9g992weP5wsCDQv0p56jLAc9b5Iu46q4ICeWTdDmL5LHjXvzEaHp9GLVbXFATxsfhESdGd1FoZAWKWBk8mOJsuQu6psC/2YnNjjtkaSFkPSvMdlUOV+VGo=
     port: 3306
+  C:
+    type: PostgreSQL
+    database: liangtianchidb_prod
+    # 数据库开关
+    switch: True
+    host: 10.249.168.240
+    user: gxtadmin
+    password: LI0K1yrni6vYnQ4b8migO48UIIVoZwRNQmMNqd/3L/TNZgY4KR29IBX9Ga4Gzfbe80x5IMDa0E0q2emaULsK4c0XJD4D95IRUCVh78MbfbR3y6683JI591AZBfUJYgnv+quaJXEGyjqnqVKnVG4wF4XrMMdgUZrdlj0rxTQHZM0=
+    port: 33433
 
 # Redis相关配置
 redis:

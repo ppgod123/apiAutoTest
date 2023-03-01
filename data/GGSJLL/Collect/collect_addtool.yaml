@@ -11,7 +11,7 @@ collect_addtool_01:
     detail: 获取监测预警记录列表接口1
     headers:
       # 这里cookie的值，写的是存入缓存的名称
-      cookie: JSESSIONID=589DDAD59F8087167F7F9D6530E4FB0F
+      cookie: JSESSIONID=7568D4907AD37F4C9ECB58D8A9217447
       Content-Type: application/json;
     # 请求的数据，是 params 还是 json、或者file、data
     requestType: json
@@ -64,3 +64,45 @@ collect_addtool_01:
       - db_name: A
         sql_list:
           - select * from early_warning.account_user
+
+collect_addtool_02:
+    host: ${{host()}}
+    url: /warning/record/page
+    method: POST
+    detail: 获取监测预警记录列表接口2
+    headers:
+      # 这里cookie的值，写的是存入缓存的名称
+      cookie: JSESSIONID=7568D4907AD37F4C9ECB58D8A9217447
+      Content-Type: application/json;
+    # 请求的数据，是 params 还是 json、或者file、data
+    requestType: json
+    # 是否执行，空或者 true 都会执行
+    is_run:
+    data:
+      pageNum: 1
+      pageSize: 10
+      corpName: $cache{sql_name}
+    dependence_case: True
+    # 依赖的数据
+    dependence_case_data:
+      - case_id: self
+        dependent_data:
+          - dependent_type: sql
+            jsonpath: $.C.name
+            set_cache: sql_name
+    assert:
+      # 断言接口状态码
+      success:
+        jsonpath: $.success
+        type: ==
+        value: true
+        AssertType:
+        message: "xxxxx"
+    current_request_set_cache:
+    sql:
+    setup_sql:
+      - db_name: C
+        sql_list:
+          - select name from public.sys_role where id = 4
+    teardown:
+    teardown_sql:
