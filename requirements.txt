@@ -11,13 +11,12 @@ cryptography==36.0.0
 DingtalkChatbot==1.5.3
 execnet==1.9.0
 Faker==9.8.3
-idna==3.3
+idna==3.3.0
 importlib-metadata==6.0.0
 iniconfig==1.1.1
 jsonpath==0.82
 packaging==21.3
 pluggy==1.0.0
-psycopg2==2.9.5
 py==1.11.0
 pycparser==2.21
 pycryptodome==3.17
@@ -31,7 +30,6 @@ pytest-xdist==2.4.0
 python-dateutil==2.8.2
 pywin32==305
 PyYAML==6.0
-redis==3.5.3
 requests==2.26.0
 requests-toolbelt==0.10.1
 six==1.16.0

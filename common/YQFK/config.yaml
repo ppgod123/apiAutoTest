@@ -1,0 +1,61 @@
+project_name: 疫情防控
+
+env: 测试环境
+# 测试人员名称，作用于自动生成代码的作者，以及发送企业微信、钉钉通知的测试负责人
+tester_name: 高利栋
+
+# 域名1
+host: http://yqfkcs.ding.zj.gov.cn/20
+# 域名2，支持多个域名配置
+app_host:
+
+# 运行完后直接打开Allure报告
+allure_open_switch: False
+
+# 报告通知类型：0: 不发送通知 1：钉钉 2、邮箱通知
+notification_type: 0
+
+# 收集失败的用例开关，整理成excel报告的形式，自动发送，目前只支持返送企业微信通知
+excel_report: True
+
+# 钉钉相关配置，一定要改！改！改！自己的！
+ding_talk:
+  webhook: https://oapi.dingtalk.com/robot/send?access_token=665024d9bc3d04b7cb3bd37a0a10deecb47916f302c6f7692d35d417f78ca191
+  secret: SEC7fa2a86f1d197ccf2a92d909264bea092f2a0cb696a7617d60da550896e9f0c7
+# 数据库相关配置
+mysql_db:
+  # 数据库开关
+  A:
+    switch: False
+    host: 172.31.75.156
+    user: yqfk_2022_cs
+    password: Fs4vnWJNcrMkmqJeMHdbQwjJtPtocoeb82vzrYtmhqC2/rqGSg1FVCiorirzS1H5Keb/18TxPXizyHWlUgWuZOJLUUYTs8oPV+DB7yiXcG2jIe5G/45w3q7uZNMo8jJ5O8q22h9ywp7CvnFFctAOnOnilr33WFUOaQfJJwWWVz4=
+    port: 3306
+
+# Redis相关配置
+redis:
+  # 开关
+  switch: False
+  host: 0.0.0.0
+  port: 18000
+  database: 0
+  password: Tn0Bi/rxkLwM9BeN1ytZzZEYBbpD3KHJRONDcz8gXjDalXf3Mcef3FB3WTLTAlLR6IvTqu6oApOI7cTgB8bTkOcMAngoMYdBHbrRxO/T5fQf19UqnZkd/LoE7pai9trwnZBrfNevOtj+daHkWZ0IeVOQB3WV5rYB8ilBSY9BIqU=
+
+
+# 镜像源
+mirror_source: http://mirrors.aliyun.com/pypi/simple/
+
+
+### 邮箱必填，需要全部都配置好，程序运行失败时，会发送邮件通知!!!!
+email:
+  switch: False
+  send_user:
+  email_host: smtp.qq.com
+  # 自己到QQ邮箱中配置stamp_key
+  stamp_key:
+  # 收件人改成自己的邮箱
+  send_list:
+
+
+
+

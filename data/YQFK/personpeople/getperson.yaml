@@ -1,0 +1,41 @@
+# 公共参数
+case_common:
+  allureEpic: 疫情防控项目接口
+  allureFeature: 重点人员模块
+  allureStory: 全部列表接口
+
+collect_addtool_01:
+    host: ${{host()}}
+    url: /focus/person/getPerson
+    method: POST
+    detail: 重点人员全部页查询
+    headers:
+      # 这里cookie的值，写的是存入缓存的名称
+      YQ-USER-ID: GE_2cec401f81ae4f28bc6267292f7e7313
+      Content-Type: application/json;
+    # 请求的数据，是 params 还是 json、或者file、data
+    requestType: json
+    # 是否执行，空或者 true 都会执行
+    is_run:
+    data:
+      userAccessTypeList: [24,25,26,35,13,29,1,11,8,12,30,31,32,33,34]
+      status: 未接收
+      current: 1
+      pageSize: 10
+
+    dependence_case: False
+    # 依赖的数据
+    dependence_case_data:
+    assert:
+      # 断言接口状态码
+      success:
+        jsonpath: $.success
+        type: ==
+        value: true
+        AssertType:
+        message: "success 断言为 true"
+    current_request_set_cache:
+    sql:
+    teardown:
+    teardown_sql:
+
