@@ -1,0 +1,18 @@
+格式：
+type: subject
+
+type值		说明
+feat		添加新特性、文件、模块
+fix			修复 bug
+docs		仅仅修改了文档
+style		仅仅修改了空格、格式缩进、逗号等等，没有改变代码逻辑
+refactor	代码重构（没有添加新功能或修复bug）
+chore		改变构建流程或增加依赖库、工具等
+
+subject：
+commit 目的的简短描述，不超过50个字符
+
+
+提交代码时，请注意不要提交 variable.py 文件
+
+提交代码时，请注意不要在 apiAutoTest\utils\encryption\encrypteInfo.py 中留下明文密码

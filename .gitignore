@@ -53,3 +53,5 @@ Thumbs.db
 /mvnw
 __pycache__/
 .pytest_cache/
+variable.py
+test*

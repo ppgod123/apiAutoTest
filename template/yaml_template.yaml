@@ -28,7 +28,7 @@ collect_addtool_01:
       # file类型
       # file:
         # file: test.png
-      # data类型
+      # data类型 TODO 待整理
       # 如果有需要使用到cache中内容，$cache{cache中的变量名}
       pageNum: 1
       pageSize: 10
@@ -41,10 +41,9 @@ collect_addtool_01:
         # dependent_data:
           # 同一个接口可以添加多个dependent_type，如果是不同接口的不同数据，需要添加- case_id
           # - dependent_type: 依赖的数据类型：request、response、sql,比如填写的是resopnse, 那么就是从依赖接口的响应内容中，提取数据，request则表示诗求数据
-          #                   数据库应该输入什么？ TODO
             # jsonpath: 比如从响应中提取errorCode，上方填写response，此处填写$.errorCode
-            # set_cache: 如果是依赖别的用例按照{该用例名称_变量名}进行定义，将上述jsonpath取出结果保存造缓存中
-            #            如果是依赖自身数据库的信息，则按照{sql_变量名}进行定义
+            # set_cache: 如果是依赖别的用例按照【该用例名称_变量名】进行定义，将上述jsonpath取出结果保存造缓存中
+            #            如果是依赖自身数据库的信息，则按照【sql_变量名】进行定义 TODO 待整理
     assert:
       # 如果接口没有返回信息，只有状态码，可以写为
       # status_code: 200
@@ -65,16 +64,28 @@ collect_addtool_01:
       # response 从响应中提取内容  request从请求中提取内容
       - type: response
         jsonpath: $.data.xxx
-        # 命名规则：  TODO
+        # 命名规则：  TODO 待整理
         name: collect_addtool_01_xxx
     # 用例中需要的SQL语句
     sql:
-      # 可以编写多条SQL，但是最好返回结果保持单一，对重名部分进行as
-      # - select * from xxx
+      # 数据库名，与config中需要保持一致
+      - db_name: A
+        # 可以编写多条SQL，但是最好返回结果保持单一，对重名部分进行as
+        # - select * from xxx
+        sql_list:
+          - select * from db名.表名
     setup_sql:
-      # 前置SQL，可以多条，最终程序中会出来{“a”: ""} json格式的数据
-      - select * from xxx where bbb = ''
+      # 数据库名
+      - db_name: A
+        # 可以编写多条SQL，但是最好返回结果保持单一，对重名部分进行as
+        # - select * from xxx
+        sql_list:
+          - select * from db名.表名
     teardown:
     teardown_sql:
-      # 可以编写多条SQL，对数据进行删除
-      # - delete * from xxx
+      # 数据库名
+      - db_name: A
+        # 可以编写多条SQL，但是最好返回结果保持单一，对重名部分进行as
+        # - select * from xxx
+        sql_list:
+          - select * from db名.表名

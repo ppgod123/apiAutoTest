@@ -1,6 +1,6 @@
 import types
 from enum import Enum, unique
-from typing import Text, Dict, Callable, Union, Optional, List, Any
+from typing import Text, Dict, Callable, Union, Optional, List, Any, Mapping
 from dataclasses import dataclass
 from pydantic import BaseModel, Field
 
@@ -115,10 +115,10 @@ class TestCase(BaseModel):
     data: Any = None
     dependence_case: Union[None, bool] = False
     dependence_case_data: Optional[Union[None, List["DependentCaseData"], Text]] = None
-    sql: List = None
-    setup_sql: List = None
+    sql: Union[None, Dict] = None
+    setup_sql: Union[None, Dict] = None
     status_code: Optional[int] = None
-    teardown_sql: Optional[List] = None
+    teardown_sql: Union[None, Dict] = None
     teardown: Union[List["TearDown"], None] = None
     current_request_set_cache: Optional[List["CurrentRequestSetCache"]]
     sleep: Optional[Union[int, float]]
@@ -139,7 +139,7 @@ class ResponseData(BaseModel):
     res_time: Union[int, float]
     status_code: int
     teardown: List["TearDown"] = None
-    teardown_sql: Union[None, List]
+    teardown_sql: Union[None, Dict]
     body: Any
 
 
@@ -149,6 +149,8 @@ class DingTalk(BaseModel):
 
 
 class MySqlDB(BaseModel):
+    type: Union[Text, None] = None
+    database: Union[Text, None] = None
     switch: bool = False
     host: Union[Text, None] = None
     user: Union[Text, None] = None
@@ -183,7 +185,7 @@ class Config(BaseModel):
     notification_type: int = 0
     excel_report: bool
     ding_talk: "DingTalk"
-    mysql_db: "MySqlDB"
+    mysql_db: Mapping[Text, "MySqlDB"]
     redis: "Redis"
     mirror_source: Text
     email: "Email"

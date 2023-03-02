@@ -1,0 +1,13 @@
+-------------【V1.1.1】------------------
+1、数据库类型新增支持postgresql
+	在common的config文件中，mysql_db新增type类型，分为MySQL、PostgreSQL
+	当数据库类型选择为PostgreSQL时，需要填写字段database
+
+
+-------------【V1.1.0】------------------
+1、支持多个数据库连接，SQL、setup_sql、teardown_sql查询多个数据库
+	在common的config文件中，mysql_db新增层级，需要填写数据库名（自定义）
+	在data的yaml文件中，sql相关需要填写db_name信息与上述自定义内容一致
+	
+-------------【V1.0.0】------------------
+1、初始版本

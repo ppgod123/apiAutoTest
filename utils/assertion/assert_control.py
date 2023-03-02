@@ -69,30 +69,32 @@ class Assert:
         :param message: 预期结果
         :return:
         """
-        # 判断数据库为开关为关闭状态
-        if config.mysql_db.switch is False:
-            WARNING.logger.warning(
-                "检测到数据库状态为关闭状态，程序已为您跳过此断言，断言值:%s", values
-            )
-        # 数据库开关为开启
-        if config.mysql_db.switch:
-            # 走正常SQL断言逻辑
-            if sql_data != {'sql': None}:
-                res_sql_data = jsonpath(sql_data, assert_value)
-                if res_sql_data is False:
-                    raise JsonpathExtractionFailed(
-                        f"数据库断言内容jsonpath提取失败， 当前jsonpath内容: {assert_value}\n"
-                        f"数据库返回内容: {sql_data}"
-                    )
+        # for db_name, db_info in sql_data.items():
+        #     db_object
+        #     # 判断数据库为开关为关闭状态
+        #     if config.mysql_db.switch is False:
+        #         WARNING.logger.warning(
+        #             "检测到数据库状态为关闭状态，程序已为您跳过此断言，断言值:%s", values
+        #         )
+        #     # 数据库开关为开启
+        #     if config.mysql_db.switch:
+        # 走正常SQL断言逻辑
+        if sql_data != {'sql': None}:
+            res_sql_data = jsonpath(sql_data, assert_value)
+            if res_sql_data is False:
+                raise JsonpathExtractionFailed(
+                    f"数据库断言内容jsonpath提取失败， 当前jsonpath内容: {assert_value}\n"
+                    f"数据库返回内容: {sql_data}"
+                )
 
-                # 判断mysql查询出来的数据类型如果是bytes类型，转换成str类型
-                res_sql_data = self.res_sql_data_bytes(res_sql_data[0])
-                name = AssertMethod(self.assert_data[key]['type']).name
-                self.functions_mapping[name](resp_data[0], res_sql_data, str(message))
+            # 判断mysql查询出来的数据类型如果是bytes类型，转换成str类型
+            res_sql_data = self.res_sql_data_bytes(res_sql_data[0])
+            name = AssertMethod(self.assert_data[key]['type']).name
+            self.functions_mapping[name](resp_data[0], res_sql_data, str(message))
 
-            # 判断当用例走的数据数据库断言，但是用例中未填写SQL
-            else:
-                raise SqlNotFound("请在用例中添加您要查询的SQL语句。")
+        # 判断当用例走的数据数据库断言，但是用例中未填写SQL
+        else:
+            raise SqlNotFound("请在用例中添加您要查询的SQL语句。")
 
     def assert_type_handle(
             self,

@@ -27,6 +27,28 @@ class CaseData:
         else:
             raise FileNotFoundError("用例地址未找到")
 
+    def judge_switch_get_info(
+            self,
+            sql_data: Union[Dict, None]) -> Union[dict, None]:
+        if sql_data:
+            _sql_name_info = {}
+            # 判断_sql中涉及的数据库和语句，如果数据库未开启，不关心语句
+            # 开启下，语句存在则保留，否则丢弃
+            for _sql_info in sql_data:
+                db_name = _sql_info["db_name"]
+                db_object = config.mysql_db.get(db_name, None)
+                if db_object:
+                    if db_object.switch:
+                        if _sql_info["sql_list"] is not None:
+                            _sql_name_info[db_name] = _sql_info["sql_list"]
+                else:
+                    raise KeyError
+            if _sql_name_info is None:
+                return None
+            return _sql_name_info
+        else:
+            return None
+
     def case_process(
             self,
             case_id_switch: Union[None, bool] = None):
@@ -330,31 +352,32 @@ class CaseData:
     def get_sql(
             self,
             case_id: Text,
-            case_data: Dict) -> Union[list, None]:
+            case_data: Dict) -> Union[dict, None]:
         """
         获取测试用例中的断言sql
         :return:
         """
         try:
             _sql = case_data['sql']
+            return self.judge_switch_get_info(sql_data=_sql)
+
             # 判断数据库开关为开启状态，并且sql不为空
-            if config.mysql_db.switch and _sql is None:
-                return None
-            return case_data['sql']
+            # if config.mysql_db.switch and _sql is None:
+            #     return None
+            # return case_data['sql']
         except KeyError as exc:
             raise ValueNotFoundError(
                 self.raise_value_null_error(case_id=case_id, data_name="sql")
             ) from exc
 
-    @classmethod
-    def setup_sql(cls, case_data: Dict) -> Union[list, None]:
+    def setup_sql(self, case_data: Dict) -> Union[dict, None]:
         """
         获取前置sql，比如该条用例中需要从数据库中读取sql作为用例参数，则需填写setup_sql
         :return:
         """
         try:
             _setup_sql = case_data['setup_sql']
-            return _setup_sql
+            return self.judge_switch_get_info(sql_data=_setup_sql)
         except KeyError:
             return None
 
@@ -369,15 +392,14 @@ class CaseData:
         except KeyError:
             return None
 
-    @classmethod
-    def teardown_sql(cls, case_data: Dict) -> Union[list, None]:
+    def teardown_sql(self, case_data: Dict) -> Union[list, None]:
         """
         获取前置sql，比如该条用例中需要从数据库中读取sql作为用例参数，则需填写setup_sql
         :return:
         """
         try:
             _teardown_sql = case_data['teardown_sql']
-            return _teardown_sql
+            return self.judge_switch_get_info(sql_data=_teardown_sql)
         except KeyError:
             return None
 

@@ -98,7 +98,7 @@ class DependentCase:
 
     def _dependent_type_for_sql(
             self,
-            setup_sql: List,
+            setup_sql: dict,
             dependence_case_data: "DependentCaseData",
             jsonpath_dates: Dict) -> None:
         """
@@ -110,27 +110,34 @@ class DependentCase:
         """
         # 判断依赖数据类型，依赖 sql中的数据
         if setup_sql is not None:
-            if config.mysql_db.switch:
-                setup_sql = ast.literal_eval(cache_regular(str(setup_sql)))
-                sql_data = SetUpMySQL().setup_sql_data(sql=setup_sql)
-                dependent_data = dependence_case_data.dependent_data
-                for i in dependent_data:
-                    _jsonpath = i.jsonpath
-                    jsonpath_data = self.jsonpath_data(obj=sql_data, expr=_jsonpath)
-                    _set_value = self.set_cache_value(i)
-                    _replace_key = self.replace_key(i)
-                    if _set_value is not None:
-                        CacheHandler.update_cache(cache_name=_set_value, value=jsonpath_data[0])
-                        # Cache(_set_value).set_caches(jsonpath_data[0])
-                    if _replace_key is not None:
-                        jsonpath_dates[_replace_key] = jsonpath_data[0]
-                        self.url_replace(
-                            replace_key=_replace_key,
-                            jsonpath_dates=jsonpath_dates,
-                            jsonpath_data=jsonpath_data,
-                        )
-            else:
-                WARNING.logger.warning("检查到数据库开关为关闭状态，请确认配置")
+            sql_data_dict = {}
+            for db_name, db_sql_list in setup_sql.items():
+                db_object = config.mysql_db[db_name]
+                if db_object:
+                    if db_object.switch:
+                        db_sql_list = ast.literal_eval(cache_regular(str(db_sql_list)))
+                        sql_data = SetUpMySQL(db_name=db_name).setup_sql_data(sql=db_sql_list)
+                        sql_data_dict[db_name] = sql_data
+                    else:
+                        WARNING.logger.warning(f"检查到数据库{db_name}开关为关闭状态，请确认配置")
+                else:
+                    raise KeyError
+            dependent_data = dependence_case_data.dependent_data
+            for i in dependent_data:
+                _jsonpath = i.jsonpath
+                jsonpath_data = self.jsonpath_data(obj=sql_data_dict, expr=_jsonpath)
+                _set_value = self.set_cache_value(i)
+                _replace_key = self.replace_key(i)
+                if _set_value is not None:
+                    CacheHandler.update_cache(cache_name=_set_value, value=jsonpath_data[0])
+                    # Cache(_set_value).set_caches(jsonpath_data[0])
+                if _replace_key is not None:
+                    jsonpath_dates[_replace_key] = jsonpath_data[0]
+                    self.url_replace(
+                        replace_key=_replace_key,
+                        jsonpath_dates=jsonpath_dates,
+                        jsonpath_data=jsonpath_data,
+                    )
 
     def dependent_handler(
             self,

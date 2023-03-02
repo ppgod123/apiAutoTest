@@ -1,11 +1,11 @@
-project_name: 衢州企业预警项目名称
+project_name: 疫情防控
 
 env: 测试环境
 # 测试人员名称，作用于自动生成代码的作者，以及发送企业微信、钉钉通知的测试负责人
-tester_name: 吴纪岩
+tester_name: 高利栋
 
 # 域名1
-host: http://dev-bl.zj.gov.cn:18085/
+host: http://yqfkcs.ding.zj.gov.cn/20
 # 域名2，支持多个域名配置
 app_host:
 
@@ -24,31 +24,13 @@ ding_talk:
   secret: SEC7fa2a86f1d197ccf2a92d909264bea092f2a0cb696a7617d60da550896e9f0c7
 # 数据库相关配置
 mysql_db:
+  # 数据库开关
   A:
-    type: MySQL
-    # 数据库开关
-    switch: True
-    host: 10.145.6.12
-    user: early_warning
-    password: WB1wH/DVTDirDu4kQrVn811rswGUWgYXfO7DzRotFYBfrAxNO4kBKLoXiNj9e7/WZd/CUh7x8Hp6jSF8V0eOqBAO2b9kL2y7/+bpDxGHMn50a1hM8VqR9AlSNHKS74QQwtJzY0PPFzWlK8Ho16FNaWy1etaRWJLn08GTSqyyLS0=
+    switch: False
+    host: 172.31.75.156
+    user: yqfk_2022_cs
+    password: Fs4vnWJNcrMkmqJeMHdbQwjJtPtocoeb82vzrYtmhqC2/rqGSg1FVCiorirzS1H5Keb/18TxPXizyHWlUgWuZOJLUUYTs8oPV+DB7yiXcG2jIe5G/45w3q7uZNMo8jJ5O8q22h9ywp7CvnFFctAOnOnilr33WFUOaQfJJwWWVz4=
     port: 3306
-  B:
-    type: MySQL
-    # 数据库开关
-    switch: True
-    host: 172.31.73.8
-    user: data_link_dev
-    password: eSe30/iuDCVN1TOfnfHB7g1sTBauy958W5CbceMlb/vrXyLwveOnJ9g992weP5wsCDQv0p56jLAc9b5Iu46q4ICeWTdDmL5LHjXvzEaHp9GLVbXFATxsfhESdGd1FoZAWKWBk8mOJsuQu6psC/2YnNjjtkaSFkPSvMdlUOV+VGo=
-    port: 3306
-  C:
-    type: PostgreSQL
-    database: liangtianchidb_prod
-    # 数据库开关
-    switch: True
-    host: 10.249.168.240
-    user: gxtadmin
-    password: LI0K1yrni6vYnQ4b8migO48UIIVoZwRNQmMNqd/3L/TNZgY4KR29IBX9Ga4Gzfbe80x5IMDa0E0q2emaULsK4c0XJD4D95IRUCVh78MbfbR3y6683JI591AZBfUJYgnv+quaJXEGyjqnqVKnVG4wF4XrMMdgUZrdlj0rxTQHZM0=
-    port: 33433
 
 # Redis相关配置
 redis:
