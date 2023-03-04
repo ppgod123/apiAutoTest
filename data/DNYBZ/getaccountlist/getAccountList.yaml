@@ -1,0 +1,41 @@
+# 公共参数
+case_common:
+  allureEpic: 大脑一本账项目接口
+  allureFeature: 系统管理/用户管理模块
+  allureStory: 全部用户列表接口
+
+collect_addtool_01:
+    host: ${{host()}}
+    url: /account/manage/list
+    method: POST
+    detail: 账号人员全部查询
+    headers:
+      # 这里cookie的值，写的是存入缓存的名称
+      YQ-USER-ID: SESSION=ZTVlZmMwNmMtZTU1YS00ODgwLWJmOTAtMzc0ZDZlNWExOTVj; token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Nzc4NDA3MDQsImlhdCI6MTY3Nzc1NDMwNCwiY29udGVudCI6IntcImFjY291bnRJZFwiOlwiNzg5ODAyMjVcIixcImVtcGxveWVlQ29kZVwiOlwiR0VfMDliZmVkZDZlZTc1NDAwYTgyOTJlYWQ5NDJmZTBmZDJcIixcInRlbmFudElkXCI6XCIxOTY3MjlcIn0ifQ.6Nta-y0OlA5inC25F_MdFR0itLYGArgol9kscVZY8MU
+      Content-Type: application/json;charset=UTF-8
+    # 请求的数据，是 params 还是 json、或者file、data
+    requestType: json
+    # 是否执行，空或者 true 都会执行
+    is_run:
+    data:
+      #userAccessTypeList: [24,25,26,35,13,29,1,11,8,12,30,31,32,33,34]
+      approveStatus: 2
+      current: 1
+      pageSize: 10
+
+    dependence_case: False
+    # 依赖的数据
+    dependence_case_data:
+    assert:
+      # 断言接口状态码
+      success:
+        jsonpath: $.success
+        type: ==
+        value: true
+        AssertType:
+        message: "success 断言为 true"
+    current_request_set_cache:
+    sql:
+    teardown:
+    teardown_sql:
+

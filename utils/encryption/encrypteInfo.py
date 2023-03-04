@@ -41,5 +41,5 @@ def encrypt_info(message):
 
 if __name__ == "__main__":
     # 需要加密的内容
-    message = ['11']
+    message = ['16#XrC$T39aR']
     encrypt_info(message)
