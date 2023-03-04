@@ -12,12 +12,15 @@ collect_addtool_01:
     headers:
       # 这里cookie的值，写的是存入缓存的名称
       YQ-USER-ID: GE_2cec401f81ae4f28bc6267292f7e7313
+      YQ-AUTH-CODE: 2d91d867aea2411c8bd38dcef8ab0304ab19e101
       Content-Type: application/json;
     # 请求的数据，是 params 还是 json、或者file、data
     requestType: json
     # 是否执行，空或者 true 都会执行
     is_run:
     data:
+
+      containSub: 1
       userAccessTypeList: [24,25,26,35,13,29,1,11,8,12,30,31,32,33,34]
       status: 未接收
       current: 1
